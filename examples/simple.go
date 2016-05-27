@@ -13,6 +13,10 @@ func main() {
 	// Example of loading JSON configuration from various sources.
 
 	appconfig := AppConfig{}
+
+	// configuration from string
+
+	ca.Json(&appconfig).FromString(`{"name":"testing"}`)
 	
 	// configuration from file
 

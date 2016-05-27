@@ -8,8 +8,6 @@ type Example struct {
 	Name string `json:"name"`
 }
 
-// Test using the dispatch API
-
 func TestFiles(t *testing.T) {
 
 	thing := Example{}
@@ -17,7 +15,7 @@ func TestFiles(t *testing.T) {
 	Json(&thing).FromFile("test.txt")
 
 	if thing.Name != "testing" {
-		t.Errorf("Wrong name, expected %s", )
+		t.Errorf("Wrong name, expected testing")
 	}
 	
 }
@@ -29,8 +27,19 @@ func TestZookeeper(t *testing.T) {
 	Json(&thing).FromZookeeper([]string{"127.0.0.1"}, "/testing")
 
 	if thing.Name != "testing" {
-		t.Errorf("Wrong name, expected %s", )
+		t.Errorf("Wrong name, expected testing")
 	}
 	
 }
 
+func TestString(t *testing.T) {
+
+	thing := Example{}
+	
+	Json(&thing).FromString(`{"name":"testing"}`)
+	
+	if thing.Name != "testing" {
+		t.Errorf("Wrong name, expected testing")
+	}
+
+}

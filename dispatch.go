@@ -21,6 +21,10 @@ func (this Dispatch) FromZookeeper(servers []string, nodePath string) {
 	this.F.Using(providers.NewZookeeperProvider(servers, nodePath).GetBytes())
 }
 
+func (this Dispatch) FromString(text string) {
+	this.F.Using(providers.NewStringProvider(text).GetBytes())
+}
+
 func Json(target interface{}) Dispatch {
 	return Dispatch{ formats.NewJsonFormat(target) }
 }
