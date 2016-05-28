@@ -4,15 +4,19 @@ import (
 	ca "github.com/MatthewJWalls/configanywhere"
 )
 
-type AppConfig struct {
+type JsonAppConfig struct {
 	Name string `json:"name"`
 }
 
-func main() {
+type KeyValueAppConfig struct {
+	Name string `key:"name"`
+}
+
+func jsonExamples() {
 
 	// Example of loading JSON configuration from various sources.
 
-	appconfig := AppConfig{}
+	appconfig := JsonAppConfig{}
 
 	// configuration from string
 
@@ -28,5 +32,18 @@ func main() {
 		[]string{"127.0.0.1"},
 		"/testing",
 	)
+
+}
+
+func keyValueExamples() {
+
+	// Example of loading key=value pairs from the environment
+
+	appconfig := KeyValueAppConfig{}
+
+	// configuration from environment variables
+
+	ca.KeyValue(&appconfig).FromEnvironment()
+
 
 }
