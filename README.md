@@ -8,7 +8,8 @@ sources into a single package with an easy to use API.
 
 * Json
 * key=value pairs
-
+* XML
+    
 #### Configuration Providers Supported
 
 * ZooKeeper
