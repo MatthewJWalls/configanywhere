@@ -67,6 +67,10 @@ func KeyValue(target interface{}) Dispatch {
 	return Dispatch{ formats.NewKeyValueFormat(target) }
 }
 
+func XML(target interface{}) Dispatch {
+	return Dispatch{ formats.NewXMLFormat(target) }
+}
+
 // other utils
 
 func (this Dispatch) Choose(providers ...Provider) error {

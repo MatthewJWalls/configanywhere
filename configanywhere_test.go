@@ -3,12 +3,18 @@ package configanywhere
 import (
 	"os"
 	"testing"
+	"encoding/xml"
 
 	"github.com/MatthewJWalls/configanywhere/providers"
 )
 
 type JsonConf struct {
 	Name string `json:"name"`
+}
+
+type XMLConf struct {
+    XMLName xml.Name `xml:"person"`
+	Name string `xml:"name"`
 }
 
 type KeyValueConf struct {
@@ -74,6 +80,18 @@ func TestEnvironment(t *testing.T) {
 	if ! thing.Alive {
 		t.Errorf("Wrong Alive, expected true")
 	}	
+
+}
+
+func TestXML(t *testing.T) {
+
+	thing := XMLConf{}
+
+	XML(&thing).FromString("<person><name>testing</name></person>")
+
+	if thing.Name != "testing" {
+		t.Errorf("Wrong name, expected testing")
+	}
 
 }
 
