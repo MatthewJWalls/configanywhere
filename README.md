@@ -4,7 +4,7 @@
 ConfigAnywhere is a convenience library that wraps up multiple ways of getting configuration from various
 sources into a single package with an easy to use API.
 
-#### Configiguration Formats Supported
+#### Configuration Formats Supported
 
 * Json
 * key=value pairs
