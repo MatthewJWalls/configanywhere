@@ -4,12 +4,12 @@
 ConfigAnywhere is a convenience library that wraps up multiple ways of getting configuration from various
 sources into a single package with an easy to use API.
 
-## Configiguration Formats Supported
+#### Configiguration Formats Supported
 
 * Json
 * key=value pairs
 
-## Configuration Providers Supported
+#### Configuration Providers Supported
 
 * ZooKeeper
 * Files
@@ -18,6 +18,7 @@ sources into a single package with an easy to use API.
 
 ## Example Usage
 
+```go
     import (
         ca "github.com/MatthewJWalls/configanywhere"
     )
@@ -64,3 +65,4 @@ sources into a single package with an easy to use API.
         ca.KeyValue(&appconfig).FromEnvironment()
 
     }
+```
