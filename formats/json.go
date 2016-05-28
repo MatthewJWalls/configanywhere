@@ -10,7 +10,7 @@ type JsonFormat struct {
 
 func (this JsonFormat) Using(bytes []byte) {
 	
-	err := json.Unmarshal(bytes, &this.target)
+	err := json.Unmarshal(bytes, this.target)
 	
 	if err != nil {
 		panic(err)

@@ -71,6 +71,10 @@ func XML(target interface{}) Dispatch {
 	return Dispatch{ formats.NewXMLFormat(target) }
 }
 
+func Yaml(target interface{}) Dispatch {
+	return Dispatch{ formats.NewYamlFormat(target) }
+}
+
 // other utils
 
 func (this Dispatch) Choose(providers ...Provider) error {

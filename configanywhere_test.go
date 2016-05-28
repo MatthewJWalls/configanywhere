@@ -12,6 +12,10 @@ type JsonConf struct {
 	Name string `json:"name"`
 }
 
+type YamlConf struct {
+	Name string `yaml:"name"`
+}
+
 type XMLConf struct {
     XMLName xml.Name `xml:"person"`
 	Name string `xml:"name"`
@@ -91,6 +95,18 @@ func TestXML(t *testing.T) {
 
 	if thing.Name != "testing" {
 		t.Errorf("Wrong name, expected testing")
+	}
+
+}
+
+func TestYaml(t *testing.T) {
+
+	thing := YamlConf{}
+
+	Yaml(&thing).FromString(`name: testing`)
+
+	if thing.Name != "testing" {
+		t.Errorf("Wrong name, expected testing. Got %s", thing.Name)
 	}
 
 }
