@@ -52,21 +52,6 @@ sources into a single package with an easy to use API.
     
     }
 
-    type KeyValueAppConfig struct {
-	    Name string `key:"name"`
-    }
-
-    func keyValueExamples() {
-
-        // Example of loading key=value pairs from the environment
-
-        appconfig := KeyValueAppConfig{}
-
-        // configuration from environment variables
-
-        configanywhere.KeyValue(&appconfig).FromEnvironment()
-
-    }
 ```
 
 #### Using Choose() to try many providers
