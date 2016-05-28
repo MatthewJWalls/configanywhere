@@ -25,7 +25,14 @@ func (this Dispatch) FromString(text string) {
 	this.F.Using(providers.NewStringProvider(text).GetBytes())
 }
 
+func (this Dispatch) FromEnvironment() {
+	this.F.Using(providers.NewEnvironmentProvider().GetBytes())
+}
+
 func Json(target interface{}) Dispatch {
 	return Dispatch{ formats.NewJsonFormat(target) }
 }
 
+func KeyValue(target interface{}) Dispatch {
+	return Dispatch{ formats.NewKeyValueFormat(target) }
+}
