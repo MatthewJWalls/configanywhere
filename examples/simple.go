@@ -45,5 +45,4 @@ func keyValueExamples() {
 
 	ca.KeyValue(&appconfig).FromEnvironment()
 
-
 }
