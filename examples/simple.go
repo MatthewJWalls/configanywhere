@@ -1,7 +1,10 @@
-package main
+package examples
 
 import (
-	ca "github.com/MatthewJWalls/configanywhere"
+	"log"
+	
+	"github.com/MatthewJWalls/configanywhere"
+	"github.com/MatthewJWalls/configanywhere/providers"	
 )
 
 type JsonAppConfig struct {
@@ -20,15 +23,15 @@ func jsonExamples() {
 
 	// configuration from string
 
-	ca.Json(&appconfig).FromString(`{"name":"testing"}`)
+	configanywhere.Json(&appconfig).FromString(`{"name":"testing"}`)
 	
 	// configuration from file
 
-	ca.Json(&appconfig).FromFile("test.txt")
+	configanywhere.Json(&appconfig).FromFile("test.txt")
 
 	// configuration from Zookeeper
 
-	ca.Json(&appconfig).FromZookeeper(
+	configanywhere.Json(&appconfig).FromZookeeper(
 		[]string{"127.0.0.1"},
 		"/testing",
 	)
@@ -43,6 +46,26 @@ func keyValueExamples() {
 
 	// configuration from environment variables
 
-	ca.KeyValue(&appconfig).FromEnvironment()
+	configanywhere.KeyValue(&appconfig).FromEnvironment()
+
+}
+
+func ChooseFromManyExample() {
+
+	// You configanywheren specify several providers, and configanywhere will
+	// try each one in turn until it finds one that works.
+	// err will be returned only if *all* of the providers failed.
+
+	appconfig := JsonAppConfig{}	
+
+	err := configanywhere.Json(&appconfig).Choose(
+		providers.NewFileProvider("doesnotexist.txt"),
+		providers.NewZookeeperProvider([]string{"127.0.0.1"}, "/doesnotexist"),
+		providers.NewStringProvider(`{"name":"testing"}`),
+	)
+
+	if err != nil {
+		log.Println("Error returned from Choose method")
+	}
 
 }

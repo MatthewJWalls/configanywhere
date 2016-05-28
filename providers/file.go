@@ -8,16 +8,11 @@ type FileProvider struct {
 	filename string
 }
 
-func (this FileProvider) GetBytes() []byte {
+func (this FileProvider) GetBytes() ([]byte, error) {
 	
 	bytes, err := ioutil.ReadFile(this.filename)
-	
-	if err != nil {
-		panic(err)
-	}
+	return bytes, err
 
-	return bytes
-	
 }
 
 func NewFileProvider(filename string) FileProvider {

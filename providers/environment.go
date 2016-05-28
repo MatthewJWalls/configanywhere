@@ -7,7 +7,7 @@ import (
 
 type EnvironmentProvider struct { }
 
-func (this EnvironmentProvider) GetBytes() []byte {
+func (this EnvironmentProvider) GetBytes() ([]byte, error) {
 
 	var out string
 	
@@ -17,7 +17,7 @@ func (this EnvironmentProvider) GetBytes() []byte {
 		}
 	}
 	
-	return []byte(out)
+	return []byte(out), nil
 }
 
 func NewEnvironmentProvider() EnvironmentProvider {

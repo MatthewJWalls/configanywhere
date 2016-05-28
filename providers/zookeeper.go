@@ -2,6 +2,7 @@ package providers
 
 import (
 	"time"
+	"errors"
 	
 	"github.com/samuel/go-zookeeper/zk"
 )
@@ -11,27 +12,27 @@ type ZookeeperProvider struct {
 	nodePath string
 }
 
-func (this ZookeeperProvider) GetBytes() []byte {
+func (this ZookeeperProvider) GetBytes() ([]byte, error) {
 	
 	conn, _, err := zk.Connect(this.servers, time.Second)
 
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 	
 	defer conn.Close()
 	
 	if exists, _, _ := conn.Exists(this.nodePath); ! exists {
-		panic("Zookeeper node does not exist")
+		return nil, errors.New("ZooKeeper node does not exist")
 	}
 
 	bytes, _, err := conn.Get(this.nodePath)
 
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
-	return bytes
+	return bytes, nil
 	
 }
 

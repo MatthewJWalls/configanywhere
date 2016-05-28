@@ -3,6 +3,8 @@ package configanywhere
 import (
 	"os"
 	"testing"
+
+	"github.com/MatthewJWalls/configanywhere/providers"
 )
 
 type JsonConf struct {
@@ -75,3 +77,37 @@ func TestEnvironment(t *testing.T) {
 
 }
 
+func TestChoose(t *testing.T) {
+
+	thing := JsonConf{}
+
+	err := Json(&thing).Choose(
+		providers.NewFileProvider("doesnotexist.txt"),
+		providers.NewZookeeperProvider([]string{"127.0.0.1"}, "/doesnotexist"),
+		providers.NewStringProvider(`{"name":"testing"}`),
+	)
+
+	if err != nil {
+		t.Errorf("Error returned from Choose method")
+	}
+
+	if thing.Name != "testing" {
+		t.Errorf("Wrong name, expected testing")
+	}
+
+}
+
+func TestChooseFailure(t *testing.T) {
+
+	thing := JsonConf{}
+	
+	err := Json(&thing).Choose(
+		providers.NewFileProvider("doesnotexist.txt"),
+		providers.NewZookeeperProvider([]string{"127.0.0.1"}, "/doesnotexist"),
+	)
+
+	if err == nil {
+		t.Errorf("No Error returned from Choose method")
+	}
+
+}

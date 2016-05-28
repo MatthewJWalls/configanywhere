@@ -1,6 +1,8 @@
 package configanywhere
 
 import (
+	"errors"
+	
 	"github.com/MatthewJWalls/configanywhere/formats"
 	"github.com/MatthewJWalls/configanywhere/providers"	
 )
@@ -13,6 +15,10 @@ import (
 // which due to Go's lack of support for Traits means
 // we have to do this somewhat clumsily as below.
 
+type Provider interface {
+	GetBytes() ([]byte, error)
+}
+
 type Format interface {
 	Using([]byte)
 }
@@ -23,20 +29,32 @@ type Dispatch struct {
 
 // Convenience methods for providers
 
-func (this Dispatch) FromFile(filename string) {
-	this.F.Using(providers.NewFileProvider(filename).GetBytes())
+func (this Dispatch) FromProvider(p Provider) error {
+	
+	bytes, err := p.GetBytes()
+
+	if err == nil {
+		this.F.Using(bytes)
+	}
+
+	return err
+	
 }
 
-func (this Dispatch) FromZookeeper(servers []string, nodePath string) {
-	this.F.Using(providers.NewZookeeperProvider(servers, nodePath).GetBytes())
+func (this Dispatch) FromFile(filename string) error {
+	return this.FromProvider(providers.NewFileProvider(filename))
 }
 
-func (this Dispatch) FromString(text string) {
-	this.F.Using(providers.NewStringProvider(text).GetBytes())
+func (this Dispatch) FromZookeeper(servers []string, nodePath string) error {
+	return this.FromProvider(providers.NewZookeeperProvider(servers, nodePath))
 }
 
-func (this Dispatch) FromEnvironment() {
-	this.F.Using(providers.NewEnvironmentProvider().GetBytes())
+func (this Dispatch) FromString(text string) error {
+	return this.FromProvider(providers.NewStringProvider(text))
+}
+
+func (this Dispatch) FromEnvironment() error {
+	return this.FromProvider(providers.NewEnvironmentProvider())
 }
 
 // convenience methods for formats
@@ -47,4 +65,22 @@ func Json(target interface{}) Dispatch {
 
 func KeyValue(target interface{}) Dispatch {
 	return Dispatch{ formats.NewKeyValueFormat(target) }
+}
+
+// other utils
+
+func (this Dispatch) Choose(providers ...Provider) error {
+
+	for _, p := range providers {
+
+		if bytes, err := p.GetBytes(); err == nil {
+			this.F.Using(bytes)
+			return nil
+		} else {
+			continue
+		}
+	}
+
+	return errors.New("All providers returned an error")
+
 }
