@@ -14,6 +14,7 @@ sources into a single package with an easy to use API.
 #### Configuration Providers Supported
 
 * ZooKeeper
+* Etcd
 * Files
 * Strings
 * Environment Variables
