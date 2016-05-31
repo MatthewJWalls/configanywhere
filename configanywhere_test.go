@@ -51,6 +51,18 @@ func TestZookeeper(t *testing.T) {
 	
 }
 
+func TestEtcd(t *testing.T) {
+
+	thing := JsonConf{}
+
+	Json(&thing).FromZookeeper([]string{"127.0.0.1"}, "/testing")
+	
+	if thing.Name != "testing" {
+		t.Errorf("Wrong name, expected testing")
+	}
+
+}
+
 func TestString(t *testing.T) {
 
 	thing := JsonConf{}
